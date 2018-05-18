@@ -1,8 +1,11 @@
 /*
  * Create a list that holds all of your cards
  */
-
-
+const cardList = ["diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle","diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle",];
+const gameBoard = document.querySelector(".deck");
+let canSelectAgain = true;
+let piecesMatched = 0;
+let firstSelection = null;
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -10,21 +13,59 @@
  *   - add each card's HTML to the page
  */
 
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+function shuffle(arr) {
+    for (let i=0; i<arr.length; i++){
+      let randomIndex = (Math.floor(Math.random() * arr.length));
+        [arr[i], arr[randomIndex]] = [arr[randomIndex], arr[i]];
     }
-
-    return array;
 }
 
+shuffle(cardList);
+
+gameBoard.addEventListener("click", (e)=>{
+    let card = e.target;
+    if (card.classList.contains("card") && (canSelectAgain) && (!card.classList.contains("match"))) {
+        let cardIcon = cardList[parseInt(card.dataset.value)];
+        revealCard(card, cardIcon);
+        if (firstSelection) {
+            compareCurrent(card, cardIcon);
+        } else {
+          firstSelection = card;
+        }
+    }
+    if (cardList.length <= piecesMatched) {
+        console.log("Game is Over");
+    }
+});
+
+function revealCard(card, cardIcon) {
+    card.classList.add("open","show");
+    card.querySelector("i").classList.add(`fa-${cardIcon}`);
+}
+
+function hideCard(card, cardIcon) {
+    card.classList.remove("open","show");
+    card.querySelector("i").classList.remove(`fa-${cardIcon}`);
+}
+
+
+function compareCurrent(card, cardIcon) {
+    let firstSelectionIcon = cardList[parseInt(firstSelection.dataset.value)];
+    if ((cardIcon === firstSelectionIcon) && (card !== firstSelection)) {
+        firstSelection.classList.add("match");
+        card.classList.add("match");
+        piecesMatched+= 2;
+        firstSelection = null;
+    } else {
+        canSelectAgain = false;
+        setTimeout(()=> {
+            hideCard(firstSelection, firstSelectionIcon);
+            hideCard(card, cardIcon);
+            firstSelection = null;
+            canSelectAgain = true;
+        }, 1000);
+    }
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -36,3 +77,4 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
