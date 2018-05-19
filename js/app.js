@@ -13,6 +13,11 @@ let firstSelection = null;
  *   - add each card's HTML to the page
  */
 
+shuffle(cardList);
+createGameBoard();
+
+
+
 function shuffle(arr) {
     for (let i=0; i<arr.length; i++){
       let randomIndex = (Math.floor(Math.random() * arr.length));
@@ -20,9 +25,22 @@ function shuffle(arr) {
     }
 }
 
-shuffle(cardList);
+function createGameBoard() {
+    gameBoard.innerHTML = "";
+    for (let i=0; i<cardList.length; i++) {
+        let cardIcon = document.createElement("i");
+        cardIcon.classList.add("fa");
+        let card = document.createElement("li");
+        card.classList.add("card");
+        card.setAttribute('data-value', i);
+        card.appendChild(cardIcon);
+        gameBoard.appendChild(card);
+    }
+    gameBoard.addEventListener("click", setGameEvents);
+}
 
-gameBoard.addEventListener("click", (e)=>{
+
+function setGameEvents(e) {
     let card = e.target;
     if (card.classList.contains("card") && (canSelectAgain) && (!card.classList.contains("match"))) {
         let cardIcon = cardList[parseInt(card.dataset.value)];
@@ -35,8 +53,9 @@ gameBoard.addEventListener("click", (e)=>{
     }
     if (cardList.length <= piecesMatched) {
         console.log("Game is Over");
+        setTimeout(createGameBoard, 3000);
     }
-});
+}
 
 function revealCard(card, cardIcon) {
     card.classList.add("open","show");

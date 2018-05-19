@@ -10,7 +10,7 @@
 
 ## TODO
 
-- [ ] Write a function that will create the game board
+- [x] Write a function that will create the game board
 - [ ] Implement a timer that starts when the first card is clicked
 - [ ] Implement the scoring system; A star rating that is based on player performance
 - [ ] Create a "Game Over" modal that shows the Final Score and a "Start a New Game"
