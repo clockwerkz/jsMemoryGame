@@ -12,16 +12,19 @@
 
 - [x] Write a function that will create the game board
 - [X] Implement a timer that starts when the first card is clicked
-- [ ] Implement a Move Counter
+- [X] Implement a Move Counter
 - [ ] Have the cards "flip" when clicked using css animations
 - [ ] Implement the reset button 
 - [ ] Make the board responsive
-- [ ] Implement the scoring system; A star rating that is based on player performance
+- [X] Implement the scoring system; A star rating that is based on player performance (basic rating system)
 - [X] Create a "Game Over" modal that shows the Final Score and a "Start a New Game"
 - [X] Write a function that will reset the board and game variables to start a new game
+- [ ] Refactor/Clean up Code in Javascript
+    - [ ] Give better names to variables, create a naming system (Variables that link to display values on the board could have a "Display" added to the name)
 
 
 ## Wistlist
+- Refactor JS code and model after MVC pattern
 - Give the board a new styling - Better title display
 - Have a complete game system, with a Start Game Button and an instructions modal
 - Create keyboard inputs for the game: I had an idea about using WASD to be able move a "Cursor" between the various cards on the board, and use the spacebar to reveal the currently selected card.

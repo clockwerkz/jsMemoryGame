@@ -8,15 +8,28 @@ const gameBoard = document.querySelector(".deck");
 const timer = document.getElementById("timer");
 const gameOverModal = document.getElementById('game-over-modal');
 const gameTime = document.getElementById("gameTime");
-let countdown;
-let canSelectAgain = true;
-let piecesMatched = 0;
-let firstSelection = null;
+const moves = document.getElementById("moves");
+const stars = [...document.querySelectorAll("i.fa.fa-star")];
+
+let countdown, moveCounter, piecesMatched, canSelectAgain, firstSelection;
+
+startGame();
 
 
-
-shuffle(cardList);
-createGameBoard();
+/*
+ * Starts the Game and resets all the game variables
+*/
+function startGame() {
+    resetStars();
+    piecesMatched = 0;
+    canSelectAgain = true;
+    firstSelection = null;
+    moveCounter = 0;
+    updateMoveCounter();
+    countdown = null;
+    //shuffle(cardList);
+    createGameBoard();
+}
 
 function startCountDown() {
     countdown = setInterval(()=>{
@@ -53,7 +66,7 @@ function createGameBoard() {
 document.getElementById("playAgain").addEventListener("click", (e)=>{
     e.preventDefault;
     gameOverModal.classList.remove('reveal');
-    createGameBoard();
+    startGame();
 });
 
 /*
@@ -66,6 +79,10 @@ document.getElementById("playAgain").addEventListener("click", (e)=>{
  *  - If it is possible to select a new card and not on a wrong answer cooldown (canSelectAgain)
  *  - And last, if the card selected hasn't already been matched (has class .match)
  * If the game clock hasn't started, start it. (Not thrilled with the idea that it's testing to check the clock for every move)
+ * 
+ * Increment the move counter and update display
+ * 
+ * Update the star ranking based on the move counter value
  * 
  * Capture the data-value of the card selected to match to the array of card values.
  * 
@@ -80,6 +97,9 @@ document.getElementById("playAgain").addEventListener("click", (e)=>{
 function setClickEvent(e) {
     let card = e.target;
     if (card.classList.contains("card") && (canSelectAgain) && (!card.classList.contains("match"))) {
+        moveCounter++;
+        updateMoveCounter();
+        checkStarRating();
         if (!countdown) startCountDown();
         let cardIcon = cardList[parseInt(card.dataset.value)];
         revealCard(card, cardIcon);
@@ -90,11 +110,36 @@ function setClickEvent(e) {
         }
     }
     if (cardList.length <= piecesMatched) {
+        /*  Game Over functionality - could be moved to it's own function */
         stopCountDown();
         gameTime.innerHTML = timer.innerHTML;
+        let finalStarRating = gameOverModal.querySelector('ul.stars');
+        gameTime.innerHTML = timer.innerHTML;
+        for (star of stars) {
+            finalStarRating.appendChild(star);
+        }
         gameOverModal.classList.add('reveal');
+
     }
 }
+
+function resetStars () {
+    for (star of stars) {
+        star.classList.add("on");
+    }
+}
+
+
+function checkStarRating() {
+    if (moveCounter > 20) stars[2].classList.remove("on");
+    if (moveCounter > 30) stars[1].classList.remove("on");
+}
+
+
+function updateMoveCounter() {
+    moves.innerHTML = moveCounter;
+}
+
 
 function revealCard(card, cardIcon) {
     card.classList.add("open","show");
@@ -125,14 +170,4 @@ function compareCurrent(card, cardIcon) {
     }
 }
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
 
