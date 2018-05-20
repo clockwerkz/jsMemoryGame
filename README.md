@@ -14,7 +14,7 @@
 - [X] Implement a timer that starts when the first card is clicked
 - [X] Implement a Move Counter
 - [ ] Have the cards "flip" when clicked using css animations
-- [ ] Implement the reset button 
+- [X] Implement the reset button 
 - [ ] Make the board responsive
 - [X] Implement the scoring system; A star rating that is based on player performance (basic rating system)
 - [X] Create a "Game Over" modal that shows the Final Score and a "Start a New Game"

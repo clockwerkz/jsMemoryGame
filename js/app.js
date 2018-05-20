@@ -69,6 +69,11 @@ document.getElementById("playAgain").addEventListener("click", (e)=>{
     startGame();
 });
 
+document.querySelector(".restart").addEventListener("click", (e)=> {
+    if (countdown) stopCountDown();
+    startGame();
+});
+
 /*
  * Event Listener Function logic:
  * 
