@@ -1,5 +1,7 @@
 /*
- * Create a list that holds all of your cards
+ * Udacity's Front End Developer Course
+ * Project 2: The Javascript Memory Game
+ * by Carlos Fins
  */
 const cardList = ["diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle","diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle",];
 const gameBoard = document.querySelector(".deck");
@@ -8,12 +10,7 @@ let countdown;
 let canSelectAgain = true;
 let piecesMatched = 0;
 let firstSelection = null;
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+
 
 shuffle(cardList);
 createGameBoard();
@@ -47,11 +44,31 @@ function createGameBoard() {
         card.appendChild(cardIcon);
         gameBoard.appendChild(card);
     }
-    gameBoard.addEventListener("click", setGameEvents);
+    gameBoard.addEventListener("click", setClickEvent);
 }
 
-
-function setGameEvents(e) {
+/*
+ * Event Listener Function logic:
+ * 
+ * Capture the element that was clicked on the board.
+ * 
+ * Then, test for 3 things:
+ *  - If the element selected was a card (has class .card),
+ *  - If it is possible to select a new card and not on a wrong answer cooldown (canSelectAgain)
+ *  - And last, if the card selected hasn't already been matched (has class .match)
+ * If the game clock hasn't started, start it. (Not thrilled with the idea that it's testing to check the clock for every move)
+ * 
+ * Capture the data-value of the card selected to match to the array of card values.
+ * 
+ * Show the card selected
+ * 
+ * If this is the first selection the player makes, save the card in firstSelection.
+ * Otherwise, compare the current card selected with the firstSelection.
+ * 
+ * Finally, check to make sure the number of piecesMatched is still less than the cardList length.
+ * If equals, then all pairs have been matched and it's game over.
+*/
+function setClickEvent(e) {
     let card = e.target;
     if (card.classList.contains("card") && (canSelectAgain) && (!card.classList.contains("match"))) {
         if (!countdown) startCountDown();
