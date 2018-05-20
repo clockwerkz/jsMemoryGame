@@ -11,10 +11,11 @@
 ## TODO
 
 - [x] Write a function that will create the game board
-- [ ] Implement a timer that starts when the first card is clicked
+- [X] Implement a timer that starts when the first card is clicked
+- [ ] Have the cards "flip" when clicked using css animations
 - [ ] Implement the scoring system; A star rating that is based on player performance
 - [ ] Create a "Game Over" modal that shows the Final Score and a "Start a New Game"
-- [ ] Write a function that will reset the board and game variables to start a new game
+- [X] Write a function that will reset the board and game variables to start a new game
 
 
 ## Wistlist

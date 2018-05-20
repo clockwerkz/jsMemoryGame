@@ -3,6 +3,8 @@
  */
 const cardList = ["diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle","diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle",];
 const gameBoard = document.querySelector(".deck");
+const timer = document.getElementById("timer");
+let countdown;
 let canSelectAgain = true;
 let piecesMatched = 0;
 let firstSelection = null;
@@ -16,7 +18,15 @@ let firstSelection = null;
 shuffle(cardList);
 createGameBoard();
 
+function startCountDown() {
+    countdown = setInterval(()=>{
+        timer.innerHTML = parseInt(timer.innerHTML)+1;
+    }, 1000);
+}
 
+function stopCountDown() {
+    clearInterval(countdown);
+}
 
 function shuffle(arr) {
     for (let i=0; i<arr.length; i++){
@@ -26,6 +36,7 @@ function shuffle(arr) {
 }
 
 function createGameBoard() {
+    timer.innerHTML="0";
     gameBoard.innerHTML = "";
     for (let i=0; i<cardList.length; i++) {
         let cardIcon = document.createElement("i");
@@ -43,6 +54,7 @@ function createGameBoard() {
 function setGameEvents(e) {
     let card = e.target;
     if (card.classList.contains("card") && (canSelectAgain) && (!card.classList.contains("match"))) {
+        if (!countdown) startCountDown();
         let cardIcon = cardList[parseInt(card.dataset.value)];
         revealCard(card, cardIcon);
         if (firstSelection) {
@@ -52,6 +64,7 @@ function setGameEvents(e) {
         }
     }
     if (cardList.length <= piecesMatched) {
+        stopCountDown();
         console.log("Game is Over");
         setTimeout(createGameBoard, 3000);
     }
