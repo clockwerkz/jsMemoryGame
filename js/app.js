@@ -7,6 +7,7 @@ const cardList = ["diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","l
 const gameBoard = document.querySelector(".deck");
 const timer = document.getElementById("timer");
 const gameOverModal = document.getElementById('game-over-modal');
+const gameTime = document.getElementById("gameTime");
 let countdown;
 let canSelectAgain = true;
 let piecesMatched = 0;
@@ -51,7 +52,6 @@ function createGameBoard() {
 
 document.getElementById("playAgain").addEventListener("click", (e)=>{
     e.preventDefault;
-    stopCountDown();
     gameOverModal.classList.remove('reveal');
     createGameBoard();
 });
@@ -90,6 +90,8 @@ function setClickEvent(e) {
         }
     }
     if (cardList.length <= piecesMatched) {
+        stopCountDown();
+        gameTime.innerHTML = timer.innerHTML;
         gameOverModal.classList.add('reveal');
     }
 }
