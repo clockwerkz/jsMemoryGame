@@ -52,12 +52,19 @@ function createGameBoard() {
     timer.innerHTML="0";
     gameBoard.innerHTML = "";
     for (let i=0; i<cardList.length; i++) {
-        let cardIcon = document.createElement("i");
-        cardIcon.classList.add("fa");
         let card = document.createElement("li");
         card.classList.add("card");
         card.setAttribute('data-value', i);
-        card.appendChild(cardIcon);
+        // let cardIcon = document.createElement("i");
+        card.innerHTML = `<div class="card-front"></div>
+                            <div class="card-back">
+                                <i class="fa"></i>
+                            </div>`;     
+        // cardIcon.classList.add("fa");
+        // let card = document.createElement("li");
+        // card.classList.add("card");
+        // card.setAttribute('data-value', i);
+        // card.appendChild(cardIcon);
         gameBoard.appendChild(card);
     }
     gameBoard.addEventListener("click", setClickEvent);
@@ -101,6 +108,7 @@ document.querySelector(".restart").addEventListener("click", (e)=> {
 */
 function setClickEvent(e) {
     let card = e.target;
+    console.log(card);
     if (card.classList.contains("card") && (canSelectAgain) && (!card.classList.contains("match"))) {
         moveCounter++;
         updateMoveCounter();
