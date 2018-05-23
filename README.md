@@ -13,7 +13,7 @@
 - [x] Write a function that will create the game board
 - [X] Implement a timer that starts when the first card is clicked
 - [X] Implement a Move Counter
-- [ ] Have the cards "flip" when clicked using css animations
+- [X] Have the cards "flip" when clicked using css animations
 - [X] Implement the reset button 
 - [ ] Make the board responsive
 - [ ] Style the Game Over Modal
