@@ -27,7 +27,7 @@ function startGame() {
     moveCounter = 0;
     updateMoveCounter();
     countdown = null;
-    //shuffle(cardList);
+    shuffle(cardList);
     createGameBoard();
 }
 
