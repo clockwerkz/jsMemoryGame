@@ -56,16 +56,23 @@ function createGameBoard() {
         let card = document.createElement("div");
         card.classList.add("card");
         card.setAttribute('data-value', i);
+        // I'm creating each individual card in this code. I think just having the structure inside of a string 
+        // is a bit more readable than having all these element declarations and then adding the classes and appending
+        // the children.
         // let cardIcon = document.createElement("i");
-        card.innerHTML = `<div class="card-front"></div>
-                            <div class="card-back">
-                                <i class="fa"></i>
-                            </div>`;     
-        // cardIcon.classList.add("fa");
-        // let card = document.createElement("li");
-        // card.classList.add("card");
-        // card.setAttribute('data-value', i);
-        // card.appendChild(cardIcon);
+        // card.innerHTML = `<div class="card-front"></div>
+        //                     <div class="card-back">
+        //                         <i class="fa"></i>
+        //                     </div>`;     
+        let cardFront = document.createElement("div");
+        cardFront.classList.add("card-front");
+        let cardBack = document.createElement("div");
+        cardBack.classList.add("card-back");
+        let cardIcon = document.createElement("i");
+        cardIcon.classList.add("fa");
+        cardBack.appendChild(cardIcon);
+        cardFront.appendChild(cardBack);
+        card.appendChild(cardFront);
         cardHolder.appendChild(card);
         gameBoard.appendChild(cardHolder);
     }
@@ -82,6 +89,8 @@ document.querySelector(".restart").addEventListener("click", (e)=> {
     if (countdown) stopCountDown();
     startGame();
 });
+
+
 
 /*
  * Event Listener Function logic:
@@ -146,8 +155,8 @@ function resetStars () {
 
 
 function checkStarRating() {
-    if (moveCounter > 20) stars[2].classList.remove("on");
-    if (moveCounter > 30) stars[1].classList.remove("on");
+    if (moveCounter > 25) stars[2].classList.remove("on");
+    if (moveCounter > 40) stars[1].classList.remove("on");
 }
 
 
