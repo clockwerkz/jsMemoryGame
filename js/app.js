@@ -52,7 +52,8 @@ function createGameBoard() {
     timer.innerHTML="0";
     gameBoard.innerHTML = "";
     for (let i=0; i<cardList.length; i++) {
-        let card = document.createElement("li");
+        let cardHolder = document.createElement("li");
+        let card = document.createElement("div");
         card.classList.add("card");
         card.setAttribute('data-value', i);
         // let cardIcon = document.createElement("i");
@@ -65,7 +66,8 @@ function createGameBoard() {
         // card.classList.add("card");
         // card.setAttribute('data-value', i);
         // card.appendChild(cardIcon);
-        gameBoard.appendChild(card);
+        cardHolder.appendChild(card);
+        gameBoard.appendChild(cardHolder);
     }
     gameBoard.addEventListener("click", setClickEvent);
 }

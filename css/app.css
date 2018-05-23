@@ -37,6 +37,7 @@ h1 {
  * Styles for the deck of cards
  */
 
+
 .deck {
     width: 660px;
     min-height: 680px;
@@ -49,6 +50,11 @@ h1 {
     justify-content: space-between;
     align-items: center;
     margin: 0 0 3em;
+    perspective: 500px;
+    list-style:none;
+}
+
+.deck li {
     perspective: 500px;
 }
 
@@ -111,7 +117,7 @@ h1 {
     cursor: default;
     background: #02ccba;
     font-size: 40px;
-} 
+}
 
 /*
  * Styles for the Score Panel
