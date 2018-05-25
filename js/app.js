@@ -5,21 +5,70 @@
  */
 const cardList = ["diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle","diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle",];
 const gameBoard = document.querySelector(".deck");
-const timer = document.getElementById("timer");
 const gameOverModal = document.getElementById('game-over-modal');
-const gameTime = document.getElementById("gameTime");
 const moves = document.getElementById("moves");
 const stars = [...document.querySelectorAll("i.fa.fa-star")];
 
-let countdown, moveCounter, piecesMatched, canSelectAgain, firstSelection;
+let moveCounter, piecesMatched, canSelectAgain, firstSelection;
+
+
+
+/* Timer Object */
+const timer = (function() {
+    const timerDisplays = [...document.querySelectorAll(".timer")];
+    let clock = 0;
+    let clockRunning=null;
+
+    function restart() {
+        clock = 0;
+        updateDisplays();
+
+    }
+
+    function updateDisplays() {
+        for (let timerDisplay of timerDisplays) {
+            timerDisplay.innerHTML = clock;
+        }
+    }
+
+    function startClock() {
+        console.log("starting clock again");
+        if (!clockRunning) {
+            console.log("running clock");
+            resetClock();
+            clockRunning = setInterval(()=>{
+                clock++;
+                updateDisplays();
+            }, 1000);
+        }
+    }
+
+    function stopClock() {
+        if (clockRunning) clearInterval(clockRunning);
+        clockRunning = null;
+    }
+
+    function resetClock() {
+        clock = 0;
+        updateDisplays();
+    }
+
+    return {
+        resetClock : resetClock,
+        startClock : startClock,
+        stopClock : stopClock,
+    }
+})();
+
 
 startGame();
-
 
 /*
  * Starts the Game and resets all the game variables
 */
 function startGame() {
+    timer.stopClock();
+    timer.resetClock();
     resetStars();
     piecesMatched = 0;
     canSelectAgain = true;
@@ -31,15 +80,6 @@ function startGame() {
     createGameBoard();
 }
 
-function startCountDown() {
-    countdown = setInterval(()=>{
-        timer.innerHTML = parseInt(timer.innerHTML)+1;
-    }, 1000);
-}
-
-function stopCountDown() {
-    clearInterval(countdown);
-}
 
 function shuffle(arr) {
     for (let i=0; i<arr.length; i++){
@@ -49,7 +89,6 @@ function shuffle(arr) {
 }
 
 function createGameBoard() {
-    timer.innerHTML="0";
     gameBoard.innerHTML = "";
     for (let i=0; i<cardList.length; i++) {
         let cardHolder = document.createElement("li");
@@ -86,7 +125,6 @@ document.getElementById("playAgain").addEventListener("click", (e)=>{
 });
 
 document.querySelector(".restart").addEventListener("click", (e)=> {
-    if (countdown) stopCountDown();
     startGame();
 });
 
@@ -124,7 +162,7 @@ function setClickEvent(e) {
         moveCounter++;
         updateMoveCounter();
         checkStarRating();
-        if (!countdown) startCountDown();
+        timer.startClock();
         let cardIcon = cardList[parseInt(card.dataset.value)];
         revealCard(card, cardIcon);
         if (firstSelection) {
@@ -135,10 +173,8 @@ function setClickEvent(e) {
     }
     if (cardList.length <= piecesMatched) {
         /*  Game Over functionality - could be moved to it's own function */
-        stopCountDown();
-        gameTime.innerHTML = timer.innerHTML;
+        timer.stopClock();
         let finalStarRating = gameOverModal.querySelector('ul.stars');
-        gameTime.innerHTML = timer.innerHTML;
         for (star of stars) {
             finalStarRating.appendChild(star);
         }
