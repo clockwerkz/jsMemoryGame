@@ -1,12 +1,15 @@
 # Udacity's Memory Game Project
 
-## Table of Contents
-
 * [Live Project](https://clockwerkz.github.io/jsMemoryGame/)
-* [ToDo](## TODO)
-* Wishlist
 
 
+## How To Play
+
+This is the classic Memory Game. A player starts with all cards faced down. Each turn, the player selects two cards. If they match, they remain face up. If they don't, they are turned back over. After all cards are matched, the game is over. The star Scoring is evaluated based on the number of "moves" used in the game. The lesser amount of moves, the better the star rating. Good luck!
+
+## Game Design
+
+Early on, I noticed that if I used Google Chrome tools, I could "see" all of the card icons by inspecting them. In order to get around this, my cards do not have their font awesome icons labeled in the cards at the start. Instead, I've assigned data-values of numbers from 0-15, and I use those data-values to index the array of card icons. So every time a player clicks on a card and reveals it, I'm applying the icon class to the i tag using the array value at that card's data-value index. If they match, play continues and the cards remain revealed. However, if they do not match, my code "removes" the icon from the i tag when flipping them back over.
 
 ## TODO
 
