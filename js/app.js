@@ -90,6 +90,7 @@ const game = (function() {
 
     /* MAIN GAME LOOP FUNCTION */
     function setClickEvent(e) {
+        e.preventDefault();
         let card = e.target;
         /* This is the main game "loop" - Check for the following three criteria:
          * 1- That the event target (saved as a variable "card") is an actual card,
