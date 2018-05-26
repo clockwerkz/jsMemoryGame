@@ -86,7 +86,6 @@ const game = (function() {
             cardHolder.appendChild(card);
             gameBoard.appendChild(cardHolder);
         }
-        gameBoard.addEventListener("click", setClickEvent);
     }
 
     /* MAIN GAME LOOP FUNCTION */
@@ -209,14 +208,19 @@ const game = (function() {
 
 
     return {
+        gameBoard : gameBoard,
         startGame : startGame,
-        clearModal : clearModal
+        clearModal : clearModal,
+        setClickEvent : setClickEvent
     }
 })();
 
 game.startGame();
 
 
+/* Click/Touch Events for the gameboard cards */
+game.gameBoard.addEventListener("click", game.setClickEvent);
+game.gameBoard.addEventListener("touchstart", game.setClickEvent);
 
 /* Click Event for the Yes button on the game over modal */
 document.getElementById("playAgain").addEventListener("click", (e)=>{
