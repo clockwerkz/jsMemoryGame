@@ -3,24 +3,17 @@
  * Project 2: The Javascript Memory Game
  * by Carlos Fins
  */
-const cardList = ["diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle","diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle",];
-const gameBoard = document.querySelector(".deck");
-const gameOverModal = document.getElementById('game-over-modal');
-const moves = document.getElementById("moves");
-const stars = [...document.querySelectorAll("i.fa.fa-star")];
-
-let moveCounter, piecesMatched, canSelectAgain, firstSelection;
-
-
 
 /* Timer Object */
 const timer = (function() {
     const timerDisplays = [...document.querySelectorAll(".timer")];
     let clock = 0;
     let clockRunning=null;
+    let isClockRunning = false;
 
     function restart() {
         clock = 0;
+        isClockRunning = true;
         updateDisplays();
 
     }
@@ -32,10 +25,9 @@ const timer = (function() {
     }
 
     function startClock() {
-        console.log("starting clock again");
-        if (!clockRunning) {
-            console.log("running clock");
+        if (!isClockRunning) {
             resetClock();
+            isClockRunning = true;
             clockRunning = setInterval(()=>{
                 clock++;
                 updateDisplays();
@@ -45,6 +37,7 @@ const timer = (function() {
 
     function stopClock() {
         if (clockRunning) clearInterval(clockRunning);
+        isClockRunning = false;
         clockRunning = null;
     }
 
@@ -57,177 +50,181 @@ const timer = (function() {
         resetClock : resetClock,
         startClock : startClock,
         stopClock : stopClock,
+        isClockRunning : isClockRunning
     }
 })();
 
 
-startGame();
+/* Game Object */
+const game = (function() {
+    const cardList = ["diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle","diamond", "paper-plane-o","anchor", "bolt", "cube", "bomb","leaf","bicycle",];
+    const gameBoard = document.querySelector(".deck");
+    const gameOverModal = document.getElementById('game-over-modal');
+    const moves = document.getElementById("moves");
+    const stars = [...document.querySelectorAll("i.fa.fa-star")];
 
-/*
- * Starts the Game and resets all the game variables
-*/
-function startGame() {
-    timer.stopClock();
-    timer.resetClock();
-    resetStars();
-    piecesMatched = 0;
-    canSelectAgain = true;
-    firstSelection = null;
-    moveCounter = 0;
-    updateMoveCounter();
-    countdown = null;
-    shuffle(cardList);
-    createGameBoard();
-}
+    let moveCounter, piecesMatched, canSelectAgain, firstSelection;
 
 
-function shuffle(arr) {
-    for (let i=0; i<arr.length; i++){
-      let randomIndex = (Math.floor(Math.random() * arr.length));
-        [arr[i], arr[randomIndex]] = [arr[randomIndex], arr[i]];
+    // Clears and re-populates the gameboard cards
+    function createGameBoard() {
+        gameBoard.innerHTML = "";
+        for (let i=0; i<cardList.length; i++) {
+            let cardHolder = document.createElement("li");
+            let card = document.createElement("div");
+            card.classList.add("card");
+            card.setAttribute('data-value', i);  
+            let cardFront = document.createElement("div");
+            cardFront.classList.add("card-front");
+            let cardBack = document.createElement("div");
+            cardBack.classList.add("card-back");
+            let cardIcon = document.createElement("i");
+            cardIcon.classList.add("fa");
+            cardBack.appendChild(cardIcon);
+            cardFront.appendChild(cardBack);
+            card.appendChild(cardFront);
+            cardHolder.appendChild(card);
+            gameBoard.appendChild(cardHolder);
+        }
+        gameBoard.addEventListener("click", setClickEvent);
     }
-}
 
-function createGameBoard() {
-    gameBoard.innerHTML = "";
-    for (let i=0; i<cardList.length; i++) {
-        let cardHolder = document.createElement("li");
-        let card = document.createElement("div");
-        card.classList.add("card");
-        card.setAttribute('data-value', i);
-        // I'm creating each individual card in this code. I think just having the structure inside of a string 
-        // is a bit more readable than having all these element declarations and then adding the classes and appending
-        // the children.
-        // let cardIcon = document.createElement("i");
-        // card.innerHTML = `<div class="card-front"></div>
-        //                     <div class="card-back">
-        //                         <i class="fa"></i>
-        //                     </div>`;     
-        let cardFront = document.createElement("div");
-        cardFront.classList.add("card-front");
-        let cardBack = document.createElement("div");
-        cardBack.classList.add("card-back");
-        let cardIcon = document.createElement("i");
-        cardIcon.classList.add("fa");
-        cardBack.appendChild(cardIcon);
-        cardFront.appendChild(cardBack);
-        card.appendChild(cardFront);
-        cardHolder.appendChild(card);
-        gameBoard.appendChild(cardHolder);
+    /* MAIN GAME LOOP FUNCTION */
+    function setClickEvent(e) {
+        let card = e.target;
+        /* This is the main game "loop" - Check for the following three criteria:
+         * 1- That the event target (saved as a variable "card") is an actual card,
+         * 2- That the game is not currently in a time penalty for not correctly selection (canSelectAgain),
+         * 3- And that the card target has not already been previously matched.
+        */
+        if (card.classList.contains("card") && (canSelectAgain) && (!card.classList.contains("match"))) {
+            //Update moveCounter both counter and on the gameboard, and check to see if we need to decrement
+            //A star at the moment.
+            moveCounter++;
+            updateMoveCounter();
+            checkStarRating();
+            if (!timer.isClockRunning) timer.startClock();
+            /* Capture the data-value from the selected card to obtain the matching icon symbol from the array.
+             * Instead of actually having the font awesome symbols on the i tags of the cards, I'm shuffling
+            /* the array and using the data-value attribute on each card as an index to access the shuffled array.
+            */
+            let cardIcon = cardList[parseInt(card.dataset.value)];
+            //Reveal selected card
+            revealCard(card, cardIcon);
+            //If a card has already been selected, then compare the current selection with the firstSelection card.
+            if (firstSelection) {
+                compareCurrent(card, cardIcon);
+            } else {
+             //if no other cards are currently queued as a selection, make this card the firstSelection card
+              firstSelection = card;
+            }
+        }
+        //If the piecesMatched equals the length of the cardList array, all cards have been revealed (game over)
+        if (cardList.length <= piecesMatched) {
+           gameOver();
+        }
     }
-    gameBoard.addEventListener("click", setClickEvent);
-}
 
+    function shuffle(arr) {
+        for (let i=0; i<arr.length; i++){
+          let randomIndex = (Math.floor(Math.random() * arr.length));
+            [arr[i], arr[randomIndex]] = [arr[randomIndex], arr[i]];
+        }
+    }
+
+    function gameOver() {
+         timer.stopClock();
+         let finalStarRating = gameOverModal.querySelector('ul.stars');
+         for (star of stars) {
+             finalStarRating.appendChild(star);
+         }
+         gameOverModal.classList.add('reveal');
+    }
+
+    // Starts the Game and resets all the game variables
+    function startGame() {
+        timer.stopClock();
+        timer.resetClock();
+        resetStars();
+        piecesMatched = 0;
+        canSelectAgain = true;
+        firstSelection = null;
+        moveCounter = 0;
+        updateMoveCounter();
+        countdown = null;
+        shuffle(cardList);
+        createGameBoard();
+    }
+
+    function resetStars () {
+        for (star of stars) {
+            star.classList.add("on");
+        }
+    }
+    
+    
+    function checkStarRating() {
+        if (moveCounter > 25) stars[2].classList.remove("on");
+        if (moveCounter > 40) stars[1].classList.remove("on");
+    }
+    
+    
+    function updateMoveCounter() {
+        moves.innerHTML = moveCounter;
+    }
+    
+    
+    function revealCard(card, cardIcon) {
+        card.classList.add("open","show");
+        card.querySelector("i").classList.add(`fa-${cardIcon}`);
+    }
+    
+    function hideCard(card, cardIcon) {
+        card.classList.remove("open","show");
+        card.querySelector("i").classList.remove(`fa-${cardIcon}`);
+    }
+    
+    
+    function compareCurrent(card, cardIcon) {
+        let firstSelectionIcon = cardList[parseInt(firstSelection.dataset.value)];
+        if ((cardIcon === firstSelectionIcon) && (card !== firstSelection)) {
+            firstSelection.classList.add("match");
+            card.classList.add("match");
+            piecesMatched+= 2;
+            firstSelection = null;
+        } else {
+            canSelectAgain = false;
+            setTimeout(()=> {
+                hideCard(firstSelection, firstSelectionIcon);
+                hideCard(card, cardIcon);
+                firstSelection = null;
+                canSelectAgain = true;
+            }, 1000);
+        }
+    }
+
+    function clearModal() {
+        gameOverModal.classList.remove('reveal');
+    }
+
+
+    return {
+        startGame : startGame,
+        clearModal : clearModal
+    }
+})();
+
+game.startGame();
+
+
+
+/* Click Event for the Yes button on the game over modal */
 document.getElementById("playAgain").addEventListener("click", (e)=>{
     e.preventDefault;
-    gameOverModal.classList.remove('reveal');
-    startGame();
+    game.clearModal();
+    game.startGame();
 });
 
 document.querySelector(".restart").addEventListener("click", (e)=> {
-    startGame();
+    game.startGame();
 });
-
-
-
-/*
- * Event Listener Function logic:
- * 
- * Capture the element that was clicked on the board.
- * 
- * Then, test for 3 things:
- *  - If the element selected was a card (has class .card),
- *  - If it is possible to select a new card and not on a wrong answer cooldown (canSelectAgain)
- *  - And last, if the card selected hasn't already been matched (has class .match)
- * If the game clock hasn't started, start it. (Not thrilled with the idea that it's testing to check the clock for every move)
- * 
- * Increment the move counter and update display
- * 
- * Update the star ranking based on the move counter value
- * 
- * Capture the data-value of the card selected to match to the array of card values.
- * 
- * Show the card selected
- * 
- * If this is the first selection the player makes, save the card in firstSelection.
- * Otherwise, compare the current card selected with the firstSelection.
- * 
- * Finally, check to make sure the number of piecesMatched is still less than the cardList length.
- * If equals, then all pairs have been matched and it's game over.
-*/
-function setClickEvent(e) {
-    let card = e.target;
-    console.log(card);
-    if (card.classList.contains("card") && (canSelectAgain) && (!card.classList.contains("match"))) {
-        moveCounter++;
-        updateMoveCounter();
-        checkStarRating();
-        timer.startClock();
-        let cardIcon = cardList[parseInt(card.dataset.value)];
-        revealCard(card, cardIcon);
-        if (firstSelection) {
-            compareCurrent(card, cardIcon);
-        } else {
-          firstSelection = card;
-        }
-    }
-    if (cardList.length <= piecesMatched) {
-        /*  Game Over functionality - could be moved to it's own function */
-        timer.stopClock();
-        let finalStarRating = gameOverModal.querySelector('ul.stars');
-        for (star of stars) {
-            finalStarRating.appendChild(star);
-        }
-        gameOverModal.classList.add('reveal');
-
-    }
-}
-
-function resetStars () {
-    for (star of stars) {
-        star.classList.add("on");
-    }
-}
-
-
-function checkStarRating() {
-    if (moveCounter > 25) stars[2].classList.remove("on");
-    if (moveCounter > 40) stars[1].classList.remove("on");
-}
-
-
-function updateMoveCounter() {
-    moves.innerHTML = moveCounter;
-}
-
-
-function revealCard(card, cardIcon) {
-    card.classList.add("open","show");
-    card.querySelector("i").classList.add(`fa-${cardIcon}`);
-}
-
-function hideCard(card, cardIcon) {
-    card.classList.remove("open","show");
-    card.querySelector("i").classList.remove(`fa-${cardIcon}`);
-}
-
-
-function compareCurrent(card, cardIcon) {
-    let firstSelectionIcon = cardList[parseInt(firstSelection.dataset.value)];
-    if ((cardIcon === firstSelectionIcon) && (card !== firstSelection)) {
-        firstSelection.classList.add("match");
-        card.classList.add("match");
-        piecesMatched+= 2;
-        firstSelection = null;
-    } else {
-        canSelectAgain = false;
-        setTimeout(()=> {
-            hideCard(firstSelection, firstSelectionIcon);
-            hideCard(card, cardIcon);
-            firstSelection = null;
-            canSelectAgain = true;
-        }, 1000);
-    }
-}
-
-
