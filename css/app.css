@@ -95,7 +95,7 @@ h1 {
     color: #000;
     border-radius: 8px;
     transform:rotateY(180deg);
-    background-color:  #02b3e4;
+    background: linear-gradient(#f7931d, #ea6616);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -121,9 +121,10 @@ h1 {
 
 .deck .card.match .card-back{
     cursor: default;
-    background: #02ccba;
+    background: linear-gradient(#f4e21d, #efde8a);
     font-size: 40px;
 }
+
 
 /*
  * Styles for the Score Panel
@@ -189,7 +190,7 @@ h1 {
     padding: 30px 0;
 }
 
-@media screen and (max-width: 426px) {
+/* @media screen and (max-width: 426px) {
     .deck {
         width: 375px;
         height: 375px;
@@ -198,5 +199,5 @@ h1 {
         width: 70px;
         height: 70px;
     }
-}
+} */
 
