@@ -18,15 +18,15 @@ Early on, I noticed that if I used Google Chrome tools, I could "see" all of the
 - [X] Implement a Move Counter
 - [X] Have the cards "flip" when clicked using css animations
 - [X] Implement the reset button 
-- [ ] Make the board responsive
-- [ ] Style the Game Over Modal
+- [X] Style the Game Over Modal
 - [X] Implement the scoring system; A star rating that is based on player performance (basic rating system)
 - [X] Create a "Game Over" modal that shows the Final Score and a "Start a New Game"
 - [X] Write a function that will reset the board and game variables to start a new game
-- [ ] Refactor Javascript code to the modular pattern
+- [X] Refactor Javascript code to the modular pattern
 
 
 ## Wistlist
+- Make the board responsive
 - Refactor JS code and model after MVC pattern
 - Give the board a new styling - Better title display
 - Have a complete game system, with a Start Game Button and an instructions modal

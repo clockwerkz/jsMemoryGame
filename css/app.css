@@ -22,9 +22,10 @@ p {
 }
 
 body {
-    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    background: linear-gradient(160deg, #0f32f7 0%, #1755ff 100%);
     font-family: 'Coda', cursive;
     position: relative;
+    color: white;
 }
 
 .container {
@@ -34,9 +35,10 @@ body {
     flex-direction: column;
 }
 
-h1 {
+header h1 {
+    font-size: 2.5em;
     font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
+    font-weight: 600;
 }
 
 /*
@@ -47,7 +49,7 @@ h1 {
 .deck {
     width: 500px;
     min-height: 500px;
-    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    background: linear-gradient(160deg, #54ceff 0%, #396eff 100%);
     padding: 32px;
     border-radius: 10px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
@@ -69,7 +71,7 @@ h1 {
     display: block;
     height: 100px;
     width: 100px;
-    background: #2e3d49;
+    background: #87b7ff;
     font-size: 12;
     color: #ffffff;
     border-radius: 8px;
@@ -136,22 +138,32 @@ h1 {
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
+    font-size: 1.5em;
 }
 
 .score-panel .stars {
     margin: 0;
     padding: 0;
     display: inline-block;
-    margin: 0 5px 0 0;
+    color: #f4e21d;
 }
 
 .score-panel .stars li {
     list-style: none;
     display: inline-block;
 }
+ul.stars {
+    margin: 0;
+    padding: 0;
+}
+.fa-star {
+    font-size: 3em;
+    color: rgb(59, 57, 40);
+    padding: 0 5px;
+}
 
 .fa-star.on {
-    color: yellow;
+    color: #f4e21d;
 }
 
 .score-panel .restart {
@@ -163,6 +175,7 @@ h1 {
  */
 
 #game-over-modal {
+    font-size: 1.25em;
     position: absolute;
     top: 0;
     left: 0;
@@ -174,13 +187,32 @@ h1 {
     z-index: -2;
 }
 
+#game-over-modal h2 {
+    color: #fff;
+    font-size: 2em;
+}
+
+#game-over-modal .btn-yes {
+    display: inline-block;
+    font-size: 1.25em;
+    font-weight: 400;
+    color: #ea6616;
+    background-color: #fff;
+    text-decoration: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+
+}
+
 #game-over-modal.reveal {
     opacity: 1;
     z-index: 2;
 }
 
 .modal-container {
-    background-color: #ffffff;
+    color: #faf1c7;
+    background-color: #eb8545;
     width: 50%;
     position: absolute;
     top: 40%;
