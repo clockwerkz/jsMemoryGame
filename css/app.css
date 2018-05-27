@@ -225,7 +225,33 @@ ul.stars {
     padding: 30px 0;
 }
 
-/* @media screen and (max-width: 426px) {
+/* Tablet devices */
+@media screen and (max-width: 680px) {
+    .deck {
+        width: 400px;
+        height: 400px;
+    }
+
+    .deck .card {
+        width: 80px;
+        height: 80px;
+    }
+
+    .modal-container {
+        width: 80%;
+    }
+}
+
+
+/* Most mobile devices */
+@media screen and (max-width: 426px) {
+    header h1 {
+        margin: 5px 0;
+    }
+    .score-panel {
+        width: 90%;
+        margin: 0 auto;
+    }
     .deck {
         width: 375px;
         height: 375px;
@@ -234,5 +260,31 @@ ul.stars {
         width: 70px;
         height: 70px;
     }
-} */
+
+    .modal-container {
+        top: 50%;
+        font-size: 1em;
+        width: 90%;
+    }
+} 
+
+/* iPhone 5 */
+@media screen and (max-width: 321px) {
+    body {
+        font-size: .75em;
+    }
+    .deck {
+        width: 100%;
+        height: 60%;
+    }
+    .deck .card {
+        width: 60px;
+        height: 60px;
+    }
+
+    .modal-container {
+        font-size: 1em;
+        width: 90%;
+    }
+} 
 
