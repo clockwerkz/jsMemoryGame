@@ -197,6 +197,7 @@ const game = (function() {
     }
 
     function clearModal() {
+        gameOverModal.querySelector('ul.stars').innerHTML = '';
         gameOverModal.classList.remove('reveal');
     }
 
