@@ -11,13 +11,6 @@ const timer = (function() {
     let clockRunning=null;
     let isClockRunning = false;
 
-    function restart() {
-        clock = 0;
-        isClockRunning = true;
-        updateDisplays();
-
-    }
-
     function updateDisplays() {
         for (let timerDisplay of timerDisplays) {
             timerDisplay.innerHTML = clock;
@@ -134,7 +127,7 @@ const game = (function() {
     function gameOver() {
          timer.stopClock();
          let finalStarRating = gameOverModal.querySelector('ul.stars');
-         for (star of stars) {
+         for (let star of stars) {
              let newStar = document.createElement('i');
              newStar.classList = star.classList;
              finalStarRating.appendChild(newStar);
@@ -152,13 +145,12 @@ const game = (function() {
         firstSelection = null;
         moveCounter = 0;
         updateMoveCounter();
-        countdown = null;
         shuffle(cardList);
         createGameBoard();
     }
 
     function resetStars () {
-        for (star of stars) {
+        for (let star of stars) {
             star.classList.add("on");
         }
     }
