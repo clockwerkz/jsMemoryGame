@@ -90,7 +90,6 @@ const game = (function() {
 
     /* MAIN GAME LOOP FUNCTION */
     function setClickEvent(e) {
-        e.preventDefault();
         let card = e.target;
         /* This is the main game "loop" - Check for the following three criteria:
          * 1- That the event target (saved as a variable "card") is an actual card,
@@ -221,7 +220,7 @@ game.startGame();
 
 /* Click/Touch Events for the gameboard cards */
 game.gameBoard.addEventListener("click", game.setClickEvent);
-game.gameBoard.addEventListener("touchstart", game.setClickEvent);
+// game.gameBoard.addEventListener("touchstart", game.setClickEvent);
 
 /* Click Event for the Yes button on the game over modal */
 document.getElementById("playAgain").addEventListener("click", (e)=>{

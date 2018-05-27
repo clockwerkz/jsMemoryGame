@@ -45,8 +45,8 @@ h1 {
 
 
 .deck {
-    width: 660px;
-    min-height: 680px;
+    width: 500px;
+    min-height: 500px;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
     padding: 32px;
     border-radius: 10px;
@@ -67,8 +67,8 @@ h1 {
 .deck .card {
     position: relative;
     display: block;
-    height: 125px;
-    width: 125px;
+    height: 100px;
+    width: 100px;
     background: #2e3d49;
     font-size: 12;
     color: #ffffff;
@@ -187,5 +187,16 @@ h1 {
     transform:translate(-50%, -50%);
     text-align:center;
     padding: 30px 0;
+}
+
+@media screen and (max-width: 426px) {
+    .deck {
+        width: 375px;
+        height: 375px;
+    }
+    .deck .card {
+        width: 70px;
+        height: 70px;
+    }
 }
 
