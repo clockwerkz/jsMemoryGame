@@ -135,7 +135,9 @@ const game = (function() {
          timer.stopClock();
          let finalStarRating = gameOverModal.querySelector('ul.stars');
          for (star of stars) {
-             finalStarRating.appendChild(star);
+             let newStar = document.createElement('i');
+             newStar.classList = star.classList;
+             finalStarRating.appendChild(newStar);
          }
          gameOverModal.classList.add('reveal');
     }
