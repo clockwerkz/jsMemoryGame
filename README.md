@@ -32,6 +32,11 @@ Early on, I noticed that if I used Google Chrome tools, I could "see" all of the
 * Google Fonts for the Coda Font Family
 
 
+## Contributions
+
+As per the assignment rules, I was the only person working on this project. All code was written by myself; I did not copy/paste any code beyond using the starter files provided by the assignment.
+
+
 ## Licensing
 
 This project is licensed under the Creative Commons Licensing. You are free to:
