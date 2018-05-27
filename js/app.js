@@ -145,7 +145,7 @@ const game = (function() {
         firstSelection = null;
         moveCounter = 0;
         updateMoveCounter();
-        //shuffle(cardList);
+        shuffle(cardList);
         createGameBoard();
     }
 
