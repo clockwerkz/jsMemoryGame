@@ -168,12 +168,12 @@ const game = (function() {
     
     
     function revealCard(card, cardIcon) {
-        card.classList.add("open","show");
+        card.classList.add("open","show", "disable");
         card.querySelector("i").classList.add(`fa-${cardIcon}`);
     }
     
     function hideCard(card, cardIcon) {
-        card.classList.remove("open","show");
+        card.classList.remove("open","show", "disable");
         card.querySelector("i").classList.remove(`fa-${cardIcon}`);
     }
     
